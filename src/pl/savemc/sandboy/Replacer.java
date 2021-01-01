@@ -56,7 +56,7 @@ public class Replacer {
 		    	i++;
             }
             
-        }.runTaskTimerAsynchronously(plugin, 0L, 4L);
+        }.runTaskTimerAsynchronously(plugin, 0L, 10L);
 	}
 
 	private boolean check(Location loc, Material m) {
