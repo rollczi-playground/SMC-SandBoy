@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SMC-SandBoy:jar">
+    <output-path>$USER_HOME$/Desktop/builds</output-path>
+    <root id="archive" name="SMC-SandBoy.jar">
+      <element id="module-output" name="SMC-SandBoy" />
+    </root>
+  </artifact>
+</component>
