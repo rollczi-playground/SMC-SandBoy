@@ -1,4 +1,4 @@
-# SMC-SandBoy
+# SMC-SandBoy (2.0 beta)
 A small plugin for replacing blocks with others. Often used in minecraft guild wars.
 ### API
 `SMCSandBoy` - instance of plugin<br>
