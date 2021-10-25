@@ -1,6 +1,0 @@
-name: SMC-SandBoy
-author: Rollczi
-version: 1.1
-main: pl.savemc.sandboy.SMCsandboy
-commands:
-   sandboy:
