@@ -13,7 +13,7 @@ public class ReplacerServiceFactory {
 
         // TODO: Wszystko dodać do konfiguracji, na razie będzie bez ;P
 
-        replacerService.registerBuilder()
+        replacerService.configuration()
                 .name("boyFarmer")
                 .replacer(new StandardReplacer(Material.OBSIDIAN, NextMove.DOWN, ReplacerValidator.AIR_ONLY))
                 .item(new ItemBuilder(Material.OBSIDIAN)
@@ -22,7 +22,7 @@ public class ReplacerServiceFactory {
                         .setEnchantment(Enchantment.DURABILITY, 10)
                 ).register();
 
-        replacerService.registerBuilder()
+        replacerService.configuration()
                 .name("sandFarmer")
                 .replacer(new FloorReplacer(Material.SAND, Material.SANDSTONE, NextMove.UP, ReplacerValidator.AIR_ONLY))
                 .item(new ItemBuilder(Material.SAND)
@@ -31,7 +31,7 @@ public class ReplacerServiceFactory {
                         .setEnchantment(Enchantment.DURABILITY, 10)
                 ).register();
 
-        replacerService.registerBuilder()
+        replacerService.configuration()
                 .name("digger")
                 .replacer(new StandardReplacer(Material.AIR, NextMove.DOWN, ReplacerValidator.BEDROCK_STOP))
                 .item(new ItemBuilder(Material.BEDROCK)

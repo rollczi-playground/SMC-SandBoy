@@ -49,8 +49,8 @@ public class ReplacerService {
                 .toList();
     }
 
-    public RegisterBuilder registerBuilder() {
-        return new RegisterBuilder(this);
+    public RegisterConfiguration configuration() {
+        return new RegisterConfiguration(this);
     }
 
     public static class ReplacerData {
@@ -83,33 +83,33 @@ public class ReplacerService {
 
     }
 
-    public static class RegisterBuilder {
+    public static class RegisterConfiguration {
 
         private final ReplacerService replacerService;
         private String name;
         private Replacer replacer;
         private ItemBuilder item;
 
-        public RegisterBuilder(ReplacerService replacerService) {
+        public RegisterConfiguration(ReplacerService replacerService) {
             this.replacerService = replacerService;
         }
 
-        public RegisterBuilder name(String name) {
+        public RegisterConfiguration name(String name) {
             this.name = name;
             return this;
         }
 
-        public RegisterBuilder replacer(Replacer replacer) {
+        public RegisterConfiguration replacer(Replacer replacer) {
             this.replacer = replacer;
             return this;
         }
 
-        public RegisterBuilder item(ItemStack item) {
+        public RegisterConfiguration item(ItemStack item) {
             this.item = ItemBuilder.of(item);
             return this;
         }
 
-        public RegisterBuilder item(ItemBuilder item) {
+        public RegisterConfiguration item(ItemBuilder item) {
             this.item = ItemBuilder.of(item);
             return this;
         }
