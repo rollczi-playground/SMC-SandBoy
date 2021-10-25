@@ -1,8 +1,8 @@
 package pl.savemc.sandboy.replacer;
 
+import org.apache.commons.lang.Validate;
 import org.bukkit.inventory.ItemStack;
 import panda.std.Option;
-import panda.std.Pair;
 import panda.std.stream.PandaStream;
 import pl.savemc.sandboy.utils.ItemBuilder;
 
@@ -13,31 +13,39 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ReplacerService {
 
-    private final Map<String, ReplacerSet> replacers = new ConcurrentHashMap<>();
+    private final Map<String, ReplacerData> replacers = new ConcurrentHashMap<>();
 
-    public void registerReplacer(String name, Replacer replacer, ItemStack item) {
-        replacers.put(name, new ReplacerSet(replacer, item));
+    public void registerReplacer(String name, Replacer replacer, ItemBuilder item) {
+        replacers.put(name, new ReplacerData(replacer, item));
+    }
+
+    public Option<ReplacerData> unregisterReplacer(String name) {
+        return Option.of(replacers.remove(name));
     }
 
     public Option<Replacer> getReplacer(String name) {
-        return Option.of(replacers.get(name)).map(Pair::getFirst);
+        return Option.of(replacers.get(name)).map(ReplacerData::getReplacer);
+    }
+
+    public Option<ReplacerData> getReplacerData(String name) {
+        return Option.of(replacers.get(name));
     }
 
     public Option<Replacer> getReplacer(ItemStack item) {
         return PandaStream.of(replacers.values())
-                .find(replacerSet -> replacerSet.getSecond().isSimilar(item))
-                .map(Pair::getFirst);
+                .find(replacerData -> replacerData.getItem().isSimilar(item))
+                .map(ReplacerData::getReplacer);
     }
 
     public Collection<Replacer> getReplacers() {
         return PandaStream.of(replacers.values())
-                .map(Pair::getFirst)
+                .map(ReplacerData::getReplacer)
                 .toList();
     }
 
-    public List<ItemStack> getReplacersItems() {
+    public List<ItemBuilder> getReplacersItems() {
         return PandaStream.of(replacers.values())
-                .map(Pair::getSecond)
+                .map(ReplacerData::getItem)
                 .toList();
     }
 
@@ -45,10 +53,32 @@ public class ReplacerService {
         return new RegisterBuilder(this);
     }
 
-    public static class ReplacerSet extends Pair<Replacer, ItemStack> {
+    public static class ReplacerData {
 
-        public ReplacerSet(Replacer first, ItemStack second) {
-            super(first, second);
+        private final Replacer replacer;
+        private ItemBuilder item;
+
+        public ReplacerData(Replacer replacer, ItemBuilder item) {
+            this.replacer = replacer;
+            this.item = ItemBuilder.of(item);
+        }
+
+        public Replacer getReplacer() {
+            return replacer;
+        }
+
+        public ItemBuilder getItem() {
+            return ItemBuilder.of(item);
+        }
+
+        public void setItem(ItemBuilder item) {
+            Validate.notNull(item, "The item is null");
+            this.item = ItemBuilder.of(item);
+        }
+
+        public void setItem(ItemStack item) {
+            Validate.notNull(item, "The item is null");
+            this.item = ItemBuilder.of(item);
         }
 
     }
@@ -58,7 +88,7 @@ public class ReplacerService {
         private final ReplacerService replacerService;
         private String name;
         private Replacer replacer;
-        private ItemStack item;
+        private ItemBuilder item;
 
         public RegisterBuilder(ReplacerService replacerService) {
             this.replacerService = replacerService;
@@ -75,22 +105,21 @@ public class ReplacerService {
         }
 
         public RegisterBuilder item(ItemStack item) {
-            this.item = item;
+            this.item = ItemBuilder.of(item);
             return this;
         }
 
         public RegisterBuilder item(ItemBuilder item) {
-            this.item = item.build();
+            this.item = ItemBuilder.of(item);
             return this;
         }
 
-        public ReplacerService register() {
-            if (name == null || replacer == null || item == null) {
-                throw new NullPointerException();
-            }
+        public void register() {
+            Validate.notNull(name, "The name is null");
+            Validate.notNull(replacer, "The replacer is null");
+            Validate.notNull(item, "The item is null");
 
             replacerService.registerReplacer(name, replacer, item);
-            return replacerService;
         }
 
     }

@@ -60,20 +60,6 @@
                         <configuration>
                             <finalName>${project.name} ${project.version} (1.8-1.17)</finalName>
                             <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <relocations>
-                                <relocation>
-                                    <pattern>panda</pattern>
-                                    <shadedPattern>pl.savemc.sandboy.libs.panda</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.panda_lang</pattern>
-                                    <shadedPattern>pl.savemc.sandboy.libs.org.panda_lang</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>net.dzikoysk</pattern>
-                                    <shadedPattern>pl.savemc.sandboy.libs.net.dzikoysk</shadedPattern>
-                                </relocation>
-                            </relocations>
                         </configuration>
                     </execution>
                 </executions>

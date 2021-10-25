@@ -15,7 +15,7 @@ public class ReplacerServiceFactory {
 
         replacerService.registerBuilder()
                 .name("boyFarmer")
-                .replacer(new StandardReplacer(Material.OBSIDIAN, NextMove.DOWN, ReplacerValidator.ONLY_AIR))
+                .replacer(new StandardReplacer(Material.OBSIDIAN, NextMove.DOWN, ReplacerValidator.AIR_ONLY))
                 .item(new ItemBuilder(Material.OBSIDIAN)
                         .setName("&9Boy Farmer")
                         .setLore("Po postawieniu niszczy wszystkie bloki pod sobą,", "dopóki nie napotka na drodze bedrocka.")
@@ -24,7 +24,7 @@ public class ReplacerServiceFactory {
 
         replacerService.registerBuilder()
                 .name("sandFarmer")
-                .replacer(new FloorReplacer(Material.SAND, Material.SANDSTONE, NextMove.UP, ReplacerValidator.ONLY_AIR))
+                .replacer(new FloorReplacer(Material.SAND, Material.SANDSTONE, NextMove.UP, ReplacerValidator.AIR_ONLY))
                 .item(new ItemBuilder(Material.SAND)
                         .setName("&9Sand Farmer")
                         .setLore("Po postawieniu tworzy ścianę z obsydianu na głębokość 80 kratek w dół.", "Kończy pracę, gdy napotka blok.")
@@ -33,7 +33,7 @@ public class ReplacerServiceFactory {
 
         replacerService.registerBuilder()
                 .name("digger")
-                .replacer(new StandardReplacer(Material.AIR, NextMove.DOWN, ReplacerValidator.TO_BEDROCK))
+                .replacer(new StandardReplacer(Material.AIR, NextMove.DOWN, ReplacerValidator.BEDROCK_STOP))
                 .item(new ItemBuilder(Material.BEDROCK)
                         .setName("&9Kopacz")
                         .setLore("Po postawieniu buduje ścianę z piasku na wysokość 60 kratek w górę.", "Kończy pracę, gdy napotka blok.")

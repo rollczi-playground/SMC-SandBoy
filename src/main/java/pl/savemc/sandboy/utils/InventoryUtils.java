@@ -7,6 +7,10 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class InventoryUtils {
 
+    public static void giveOrDrop(Player player, ItemBuilder item) {
+        giveOrDrop(player, item.build());
+    }
+
     public static void giveOrDrop(Player player, ItemStack itemStack) {
         PlayerInventory inventory = player.getInventory();
 

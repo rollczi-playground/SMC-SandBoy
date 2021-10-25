@@ -8,33 +8,50 @@ import pl.savemc.sandboy.replacer.NextMove;
 import pl.savemc.sandboy.replacer.Replacer;
 import pl.savemc.sandboy.replacer.ReplacerValidator;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class StandardReplacer implements Replacer {
 
     protected final Material to;
     protected final NextMove nextMove;
-    protected final ReplacerValidator validator;
+    protected final Set<ReplacerValidator> validators = new HashSet<>();
 
-    public StandardReplacer(Material to, NextMove nextMove, ReplacerValidator validator) {
+    public StandardReplacer(Material to, NextMove nextMove, ReplacerValidator... validators) {
         this.to = to;
         this.nextMove = nextMove;
-        this.validator = validator;
+        this.validators.addAll(Arrays.asList(validators));
+        this.validators.add(ReplacerValidator.WORLD_HEIGHT);
     }
 
     @Override
     public void replacer(Location location) {
-        this.nextReplace(location);
+        this.nextReplace(location, 1);
     }
 
-    private void nextReplace(Location location) {
+    @Override
+    public void addValidator(ReplacerValidator validator) {
+        validators.add(validator);
+    }
+
+    @Override
+    public void removeValidator(ReplacerValidator validator) {
+        validators.remove(validator);
+    }
+
+    private void nextReplace(Location location, int round) {
         location.getBlock().setType(to);
 
         Location next = nextMove.apply(location);
 
-        if (!validator.test(next, to)) {
-            return;
+        for (ReplacerValidator validator : validators) {
+            if (!validator.test(next, next.getBlock().getType(), round)) {
+                return;
+            }
         }
 
-        Bukkit.getScheduler().runTaskLater(SMCSandBoy.getInstance(), () -> replacer(next), 10L);
+        Bukkit.getScheduler().runTaskLater(SMCSandBoy.getInstance(), () -> nextReplace(next, round + 1), 10L);
     }
 
 }

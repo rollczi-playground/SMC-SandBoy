@@ -20,8 +20,10 @@ public class FloorReplacer extends StandardReplacer {
 
         Location next = nextMove.apply(location);
 
-        if (!validator.test(next, to)) {
-            return;
+        for (ReplacerValidator validator : validators) {
+            if (!validator.test(next, next.getBlock().getType(), 0)) {
+                return;
+            }
         }
 
         super.replacer(next);

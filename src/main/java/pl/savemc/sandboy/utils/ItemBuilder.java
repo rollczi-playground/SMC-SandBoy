@@ -20,7 +20,7 @@ public class ItemBuilder {
     private final ItemStack itemStack;
 
     private ItemBuilder(ItemStack itemStack) {
-        this.itemStack = itemStack;
+        this.itemStack = new ItemStack(itemStack);
     }
 
     public ItemBuilder(Material material) {
@@ -135,6 +135,14 @@ public class ItemBuilder {
         metaConsumer.accept(meta);
         this.itemStack.setItemMeta(meta);
         return this;
+    }
+
+    public boolean isSimilar(ItemStack item) {
+        return this.itemStack.isSimilar(item);
+    }
+
+    public boolean isSimilar(ItemBuilder item) {
+        return this.itemStack.isSimilar(item.itemStack);
     }
 
 }
